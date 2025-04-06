@@ -878,6 +878,11 @@ fun buildConfig(
                 outbound = mutableListOf("any")
                 server = "dns-direct"
             })
+            // 阻止 HTTPS 或 SVCB 类型的 DNS 查询
+            dns.rules.add(0, DNSRule_DefaultOptions().apply {
+                query_type = listOf("HTTPS", "SVCB")
+                server = "dns-block"
+            })
             // force bypass (always top DNS rule)
             if (domainListDNSDirectForce.isNotEmpty()) {
                 dns.rules.add(0, DNSRule_DefaultOptions().apply {
